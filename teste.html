@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+       /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.section-title {
+    margin-bottom: 30px;
+}
+
+.gallery-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.gallery-grid {
+    padding: 10px;
+}
+
+.img-fluid {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
+
+.lightbox {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    bottom: 0; /* Alinha o lightbox na parte inferior da tela */
+    width: 100%;
+    height: 40%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lightbox-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%; /* Ajuste a altura do conteúdo */
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 70%; /* Ajuste a altura máxima da imagem */
+}
+
+.close {
+    position: absolute;
+    top: 10px; /* Ajuste a posição do botão de fechar */
+    right: 35px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.lightbox-thumbnails {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.lightbox-thumbnails img {
+    width: 100px;
+    height: auto;
+    margin: 0 5px;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.lightbox-thumbnails img:hover {
+    opacity: 1;
+}
+body.no-scroll {
+    overflow: hidden;
+}
+
+    </style>
+</head>
+<body>
+    <div id="portfolio" class="section lb">
+        <div class="container">
+            <div class="section-title text-center">
+                <h3>Portfolio</h3>
+                <p>Explore our portfolio to see how we’ve brought diverse visions to life.</p>
+            </div>
+
+            <div class="gallery-list row">
+                <div class="col-md-4 col-sm-6 gallery-grid">
+                    <div class="gallery-single fix">
+                        <img src="uploads/gallery_img-01.jpg" class="img-fluid clickable-image" alt="Website X" data-gallery="gallery1">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 gallery-grid">
+                    <div class="gallery-single fix">
+                        <img src="uploads/gallery_img-02.jpg" class="img-fluid clickable-image" alt="Website Y" data-gallery="gallery2">
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 gallery-grid">
+                    <div class="gallery-single fix">
+                        <img src="uploads/gallery_img-03.jpg" class="img-fluid clickable-image" alt="Website Z" data-gallery="gallery3">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox">
+        <span class="close">&times;</span>
+        <div class="lightbox-content">
+            <img id="lightbox-image" src="" alt="">
+        </div>
+        <div class="lightbox-thumbnails">
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('.clickable-image');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const close = document.querySelector('.close');
+            const thumbnailsContainer = document.querySelector('.lightbox-thumbnails');
+        
+            const galleryImages = {
+                gallery1: [
+                    'uploads/gallery_img-01.jpg',
+                    'uploads/websiteX_img-02.jpg',
+                    'uploads/websiteX_img-03.jpg'
+                ],
+                gallery2: [
+                    'uploads/gallery_img-02.jpg',
+                    'uploads/websiteY_img-02.jpg',
+                    'uploads/websiteY_img-03.jpg'
+                ],
+                gallery3: [
+                    'uploads/gallery_img-03.jpg',
+                    'uploads/websiteZ_img-02.jpg',
+                    'uploads/websiteZ_img-03.jpg'
+                ]
+            };
+        
+            function openLightbox(src, gallery) {
+                lightboxImage.src = src;
+                lightbox.style.display = 'block';
+                thumbnailsContainer.innerHTML = '';
+                
+                galleryImages[gallery].forEach(imgSrc => {
+                    const thumb = document.createElement('img');
+                    thumb.src = imgSrc;
+                    thumb.addEventListener('click', () => {
+                        lightboxImage.src = imgSrc;
+                    });
+                    thumbnailsContainer.appendChild(thumb);
+                });
+            }
+        
+            images.forEach(image => {
+                image.addEventListener('click', () => {
+                    const gallery = image.getAttribute('data-gallery');
+                    openLightbox(image.src, gallery);
+                });
+            });
+        
+            close.addEventListener('click', () => {
+                lightbox.style.display = 'none';
+            });
+        });
+        </script>
+</body>
+</html>
